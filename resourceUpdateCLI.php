@@ -2,4 +2,14 @@
 require_once('classes/dotaResources.php');
 
 $dotaResources = new dotaResources();
-$dotaResources->updateItemData();
+
+switch($argv[1]){
+    case 'update-items':
+        $dotaResources->updateItemData();
+        break;
+    case 'update-abilities':
+        $dotaResources->updateAbilityData();
+        break;
+    
+}
+
