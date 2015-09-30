@@ -92,7 +92,7 @@ class dotaResources {
             echo "Local Data successfully updated!\r\n";
         }
         else{
-            echo "Item Data is already up to date!\r\n";
+            echo "Ability Data is already up to date!\r\n";
         }
     }
     
@@ -128,7 +128,7 @@ class dotaResources {
             echo "Local Data successfully updated!\r\n";
         }
         else{
-            echo "Item Data is already up to date!\r\n";
+            echo "Hero Data is already up to date!\r\n";
         }
     }
 }
