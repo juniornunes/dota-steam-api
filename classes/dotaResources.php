@@ -9,9 +9,16 @@ class dotaResources {
             fclose($fp);
         }
         
-        // Create Avility Data JSON File
+        // Create Ability Data JSON File
         if(!file_exists('data/abilitydata.json')){
             $fp = fopen('data/abilitydata.json', 'w');
+            fwrite($fp, '[]');
+            fclose($fp);
+        }
+        
+        // Create Hero Data JSON File
+        if(!file_exists('data/herodata.json')){
+            $fp = fopen('data/herodata.json', 'w');
             fwrite($fp, '[]');
             fclose($fp);
         }
@@ -58,29 +65,63 @@ class dotaResources {
         
         echo ".:: ABILITIES ::.\r\n";
         echo "Checking for updates...\r\n";
-        // Get Online Item Data
+        // Get Online Ability Data
         $json_data = file_get_contents('http://www.dota2.com/jsfeed/abilitydata');
-        // Get Local Item data
+        // Get Local Ability data
         $current_data = file_get_contents('data/abilitydata.json');
         
         // Check id there are any changes changes
         if($json_data != $current_data){
             echo "Changes Detected. Updating Local Data...\r\n";
             
-            // Create Updated Local Item Data file
+            // Create Updated Local Ability Data file
             $fp = fopen('data/abilitydata.json', 'w');
             fwrite($fp, $json_data);
             fclose($fp);
 
-            // Extract Item Data
+            // Extract Ability Data
             $data = json_decode($json_data, true)['abilitydata'];
-            echo "<pre>" . print_r($data, 1) . "</pre>";
-            die();
 
             // Save Images
             foreach($data as $skillname => $record){
                 $itemImg = 'http://media.steampowered.com/apps/dota2/images/abilities/' . $skillname . '_hp1.png?v=' . time();
-                $saveImg = 'images/items/' . $skillname;
+                $saveImg = 'images/abilities/' . $skillname . '.png';
+                copy($itemImg, $saveImg);
+            }
+            
+            echo "Local Data successfully updated!\r\n";
+        }
+        else{
+            echo "Item Data is already up to date!\r\n";
+        }
+    }
+    
+    public function updateHeroesData(){
+        set_time_limit(0);
+        
+        echo ".:: HEROES ::.\r\n";
+        echo "Checking for updates...\r\n";
+        // Get Online Hero Data
+        $json_data = file_get_contents('http://www.dota2.com/jsfeed/heropediadata?feeds=herodata');
+        // Get Local Hero data
+        $current_data = file_get_contents('data/herodata.json');
+        
+        // Check id there are any changes changes
+        if($json_data != $current_data){
+            echo "Changes Detected. Updating Local Data...\r\n";
+            
+            // Create Updated Local Hero Data file
+            $fp = fopen('data/herodata.json', 'w');
+            fwrite($fp, $json_data);
+            fclose($fp);
+
+            // Extract Hero Data
+            $data = json_decode($json_data, true)['herodata'];
+
+            // Save Images
+            foreach($data as $heroname => $record){
+                $itemImg = 'http://media.steampowered.com/apps/dota2/images/heroes/' . $heroname . '_full.png?v=' . time();
+                $saveImg = 'images/heroes/' . $heroname . '.png';
                 copy($itemImg, $saveImg);
             }
             

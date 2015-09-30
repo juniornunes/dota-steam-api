@@ -10,6 +10,5 @@ switch($argv[1]){
     case 'update-abilities':
         $dotaResources->updateAbilityData();
         break;
-    
 }
 
